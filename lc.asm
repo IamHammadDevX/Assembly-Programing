@@ -1,0 +1,32 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+	;define constants
+	CR EQU 0DH
+	LF EQU 0AH
+	MSG1 DB 'Enter a lower case letter: $'
+	MSG2 DB CR,LF,'Letter in Uppercase is: $'
+.CODE
+MAIN PROC
+	MOV AX, @DATA
+	MOV DS, AX
+	;Display Msg
+	LEA DX, MSG1
+	MOV AH, 9
+	INT 21H
+	;Take ip
+	MOV AH, 1
+	INT 21H
+	SUB AL, 32
+	MOV BL, AL
+	;DISPLAY
+	LEA DX, MSG2
+	MOV AH, 9
+	INT 21H
+	MOV DL, BL
+	MOV AH, 2
+	INT 21H
+	MOV AH, 4CH
+	INT 21H
+MAIN ENDP
+	END MAIN
