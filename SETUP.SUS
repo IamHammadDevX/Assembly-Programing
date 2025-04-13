@@ -1,0 +1,95 @@
+cls :a 30 "CodeView Sample Session"
+set none = ""
+
+if (protMode == 1)
+    echo
+    echo "  The sample session cannot be run in protected mode. You must"
+    echo "  switch to real mode to run the demonstration."
+    dialog simple,wait, "Press Return to continue..."
+    exit
+endif
+
+set yes="yes"
+dialog simple,yes,"  Is your computer an IBM or IBM-compatible? "
+if (yes != "yes") 
+   echo
+   echo "  If your computer is not IBM compatible, you will not be able"
+   echo "  to run the sample session. However, you can still use the"
+   echo "  CodeView (R) debugger in sequential mode, as described in the"
+   echo "  CodeView and Utilities manual."
+   exit
+endif
+echo
+echo "  A few IBM-compatible computers require the /D CodeView"
+echo "  option. The following are known to require this option:"
+echo
+echo "       Tandy 1000            AT&T 6300 Plus"
+echo
+echo "  If your computer is not one of these, try the session first"
+echo "  without /D. If you have trouble, try again with /D. If you"
+echo "  still have trouble, your computer isn't compatible."
+echo
+echo "  If you use the /D option, the CONTROL-C and CONTROL-BREAK"
+echo "  keys cannot be used to break out of the sample session."
+echo
+set yes = "no"
+dialog simple,yes,"  Do you want to try the /D option? "
+if (yes != "no")
+    set Option="/D"
+else
+    set Option="/I"
+endif
+cls
+echo
+echo "  Welcome to the Microsoft CodeView(R) debugger."
+echo
+echo "     Copyright (C) Microsoft Corporation 1987, 1988"
+echo "                  All rights reserved"
+echo
+echo "  The CodeView debugger is a powerful tool for serious debugging."
+echo "  This tutorial introduces you to CodeView commands using SHOW--"
+echo "  a program that displays text files on the screen. The tutorial"
+echo "  is broken into three lessons taking 5 to 10 minutes each."
+echo
+echo "  You control the pace. The lessons periodically pause and ask"
+echo "  you to press a key. Although keystrokes may be discussed on the"
+echo "  screen, you do not need to type them. Just press any key."
+echo
+echo "  You can quit in the middle of a lesson by first pressing CONTROL-C"
+echo "  or CONTROL-BREAK, then pressing a key. The word `break' will"
+echo "  appear, followed by the CodeView prompt (the greater-than symbol)."
+echo "  At the prompt, enter `Q' for Quit. The tutorial will end."
+echo
+dialog simple,none,"  Press Enter to continue . . . "
+cls
+echo "  The following command line will be used to start the debugger:"
+echo
+echo "    CV "Option" /W /S /M /C<M_AUTO.CV SHOWR SHOWR.ASM"
+echo
+echo "  The elements of the command line are explained below:"
+echo
+echo "    - CV is the program name of the debugger"
+if (Option == "/I")
+    echo "    - /I ensures that IBM features are used on compatible computers"
+else
+    echo "    - /D turns off incompatible CTRL-C checking"
+endif
+echo "    - /W specifies window mode"
+echo "    - /S specifies screen swapping as the screen-exchange mode"
+echo "    - /M turns off the mouse if you have one"
+echo "    - /C<M_AUTO.CV specifies that on start-up, commands will be"
+echo "      redirected from M_AUTO.CV to the debugger"
+echo "    - SHOWR is the executable file (.EXE extension assumed)"
+echo "    - SHOWR.ASM is the file to be processed by SHOWR"
+echo
+dialog simple,none,"  Press Enter to continue . . . "
+cls
+echo "  The debugger will now start. Loading and initial processing"
+echo "  may take a moment . . ."
+echo
+echo "CV" "/W " Option " /S /M /C<M_AUTO.CV SHOWR SHOWR.ASM"
+exec "CV" "/W " Option " /S /M /C<M_AUTO.CV SHOWR SHOWR.ASM"
+cls
+if (status == 1)
+   echo "Debugger not found. Modify your path."
+endif
