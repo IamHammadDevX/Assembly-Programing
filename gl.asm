@@ -1,0 +1,22 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    	
+.CODE
+MAIN PROC
+	MOV AX, 1234H
+	MOV BX, -5678H
+
+	;if ax > bx then cx = ax else cx = bx
+	CMP AX, BX
+	JG MOVE
+	;else
+	MOV CX, BX
+	JMP DONE
+	MOVE:
+		MOV CX, AX
+	DONE:
+		MOV AH, 4CH
+		INT 21H	
+MAIN ENDP
+END MAIN
